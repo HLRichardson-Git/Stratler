@@ -16,6 +16,7 @@ FetchContent_Declare(
 set(SOURCES
     main.cpp
     engine/pokemon/type/type.cpp
+    engine/pokemon/move/move.cpp
     engine/pokemon/pokemon.cpp
     engine/state/state.cpp
     util/table/table.cpp
