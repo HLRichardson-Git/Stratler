@@ -1,23 +1,27 @@
 #pragma once
 
+#include <iostream>
+
 #include "type/type.h"
+#include "../pokedex/pokemon_database.h"
 
 class Pokemon {
 private:
     std::string name;
-    Type type;
+    PokemonData details;
 
+    PokemonData findPokemonData(const std::string& name);
+
+    friend class Team;
 public:
 
-    Pokemon(const std::string& name, PokemonType primaryType) : name(name), type(primaryType) {}
-
-    Pokemon(const std::string& name, PokemonType primaryType, PokemonType secondaryType)
-        : name(name), type(primaryType, secondaryType) {}
+    Pokemon(const std::string& name)
+        : name(name), details(findPokemonData(name)) {}
 
     void displayInfo();
     void displayWeaknesses();
 
-    std::vector<float> getWeaknesses() {return type.getCombinedWeakness(); };
+    std::vector<float> getWeaknesses() {return details.types.getCombinedWeakness(); };
 
     std::string getName() const { return name; };
 };
