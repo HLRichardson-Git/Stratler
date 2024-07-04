@@ -9,8 +9,8 @@ enum PokemonType {
     NORMAL,
     FIRE,
     WATER,
-    GRASS,
     ELECTRIC,
+    GRASS,
     ICE,
     FIGHTING,
     POISON,
@@ -62,11 +62,12 @@ private:
 
 public:
 
+    Type() : primaryType(PokemonType::NONE), secondaryType(PokemonType::NONE) {}
     Type(PokemonType primaryType) : primaryType(primaryType), secondaryType(PokemonType::NONE) {}
     Type(PokemonType primaryType, PokemonType secondaryType) : primaryType(primaryType), secondaryType(secondaryType) {}
 
     std::vector<float> getCombinedWeakness();
-    std::string typeToString(PokemonType type) { return typeNames[static_cast<int>(type)]; }
+    std::string typeToString(PokemonType type) { return (type == NONE) ? "None": typeNames[static_cast<int>(type)]; }
 
     PokemonType getPrimaryType() const { return primaryType; }
     PokemonType getSecondaryType() const { return secondaryType; }
