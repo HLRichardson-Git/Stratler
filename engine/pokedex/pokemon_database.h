@@ -6,6 +6,32 @@
 
 #include "../pokemon/type/type.h"
 
+struct PokemonStats {
+    std::array<int, 6> stats; // HP, Attack, Defense, Special Attack, Special Defense, Speed
+
+    PokemonStats() : stats({0, 0, 0, 0, 0, 0}) {}
+
+    void setStats(std::array<int, 6> givenStats) {
+        for (size_t i = 0; i < 6; i++) {
+            stats[i] = givenStats[i];
+        }
+    };
+
+    void addEVs(const std::array<int, 6>& evs) {
+        for (size_t i = 0; i < 6; i++) {
+            stats[i] += evs[i];
+        }
+    }
+
+    // Getter methods if needed
+    int getHP() const { return stats[0]; }
+    int getAttack() const { return stats[1]; }
+    int getDefense() const { return stats[2]; }
+    int getSpecialAttack() const { return stats[3]; }
+    int getSpecialDefense() const { return stats[4]; }
+    int getSpeed() const { return stats[5]; }
+};
+
 struct PokemonData {
     Type types;
     std::array<int, 6> stats; // HP, Attack, Defense, Special Attack, Special Defense, Speed
@@ -15,6 +41,12 @@ struct PokemonData {
 
     PokemonData(PokemonType t1, PokemonType t2, const std::array<int, 6>& s)
         : types(t1, t2), stats(s) {}
+
+    void setStats(std::array<int, 6> givenStats) {
+        for (size_t i = 0; i < 6; i++) {
+            stats[i] = givenStats[i];
+        }
+    };
 };
 
 using PokemonDatabase = std::map<std::string, PokemonData>;

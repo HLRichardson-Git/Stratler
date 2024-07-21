@@ -4,7 +4,7 @@
 
 void Team::calculateTeamWeaknesses() {
     for (int i = 0 ; i < TEAM_SIZE; i++) {
-        teamWeaknesses[i] = roster[i].details.types.getCombinedWeakness();
+        teamWeaknesses[i] = roster[i].types.getCombinedWeakness();
     }
 }
 

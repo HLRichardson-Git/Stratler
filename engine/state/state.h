@@ -38,5 +38,5 @@ public:
 
     void displayTeamsWeaknesses();
 
-    Pokemon getPokemon(int index) { return roster[index]; };
+    Pokemon& getPokemon(int index) { return roster[index]; };
 };
