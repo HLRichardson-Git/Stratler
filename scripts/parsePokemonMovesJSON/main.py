@@ -1,5 +1,11 @@
 import json
 
+category_translation = {
+    "变化": "STATUS",
+    "特殊": "SPECIAL",
+    "物理": "PHYSICAL"
+}
+
 def load_moves(json_file):
     with open(json_file, 'r', encoding='utf-8') as f:
         return json.load(f)
@@ -17,24 +23,17 @@ using MoveDatabase = std::map<std::string, Move>;
 
 static const MoveDatabase move_database = {
 '''
-
+    
     for move in moves:
         name = move['ename']  # English name of the move
         type_str = move['type']  # Type of the move
-        #power = move['power']
-        #accuracy = move['accuracy']
-        #pp = move['pp']
         power = move['power'] if 'power' in move and move['power'] is not None else -1
         accuracy = move['accuracy'] if 'accuracy' in move and move['accuracy'] is not None else -1
         pp = move['pp'] if 'pp' in move and move['pp'] is not None else -1
-        # Convert type_str to PokemonType enum
-        #pokemon_type = {
-        #    "Normal": "PokemonType::Normal",
-        #    "Fighting": "PokemonType::Fighting",
-        #    # Add more types as needed
-        #}.get(type_str, "PokemonType::Normal")  # Default to Normal type if type is unknown
+        # Translate category from Chinese to English
+        category = category_translation.get(move['category'], "UNKNOWN")
 
-        cpp_code += f'    {{"{name}", {{ {type_str.upper()}, {power}, {accuracy}, {pp} }} }},\n'
+        cpp_code += f'    {{"{name}", {{"{name}", {type_str.upper()}, {category}, {power}, {accuracy}, {pp} }} }},\n'
 
     cpp_code += '''};
 '''

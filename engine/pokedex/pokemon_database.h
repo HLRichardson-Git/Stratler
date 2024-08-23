@@ -30,6 +30,15 @@ struct PokemonStats {
     int getSpecialAttack() const { return stats[3]; }
     int getSpecialDefense() const { return stats[4]; }
     int getSpeed() const { return stats[5]; }
+
+    void displayStats() {
+        std::cout << "hp " << stats[0] << std::endl;
+        std::cout << "atk " << stats[1] << std::endl;
+        std::cout << "def " << stats[2] << std::endl;
+        std::cout << "spA " << stats[3] << std::endl;
+        std::cout << "spD " << stats[4] << std::endl;
+        std::cout << "spe " << stats[5] << std::endl;
+    }
 };
 
 struct PokemonData {

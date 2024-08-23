@@ -1,0 +1,53 @@
+Sceptile @ Sceptilite
+Ability: Overgrow
+EVs: 4 Def / 252 SpA / 252 Spe
+Naive Nature
+- Leaf Storm
+- Dragon Pulse
+- Earthquake
+- Hidden Power Fire
+
+Kyurem-Black @ Life Orb
+Ability: Teravolt
+EVs: 4 Atk / 252 SpA / 252 Spe
+Mild Nature
+- Ice Beam
+- Earth Power
+- Fusion Bolt
+- Roost
+
+Talonflame @ Leftovers
+Ability: Gale Wings
+EVs: 248 HP / 252 Atk / 8 Def
+Adamant Nature
+- Acrobatics
+- Swords Dance
+- Roost
+- Will-O-Wisp
+
+Slowbro @ Leftovers
+Ability: Regenerator
+EVs: 252 HP / 176 Def / 80 SpD
+Bold Nature
+- Scald
+- Slack Off
+- Thunder Wave
+- Ice Beam
+
+Tyranitar @ Choice Scarf
+Ability: Sand Stream
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Stone Edge
+- Pursuit
+- Superpower
+- Crunch
+
+Excadrill @ Leftovers
+Ability: Sand Rush
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Earthquake
+- Iron Head
+- Rapid Spin
+- Swords Dance

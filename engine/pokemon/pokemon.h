@@ -12,36 +12,86 @@ class Pokemon {
 private:
     std::string name;
     Type types;
+    size_t level = 100;
+    // TODO: Add items
     PokemonStats baseStats;
     PokemonStats evs;
     PokemonStats ivs;
     PokemonStats stats;
     Nature nature;
     std::array<Move, 4> moves;
+    std::vector<float> combinedWeakness; 
 
-    //PokemonData findPokemonData(const std::string& name);
     void findPokemonData(const std::string& name);
-    int calculateHP(int hp, int ev);
+    int calculateHP(int hp, int iv, int ev);
     int calculateOtherStats(int base, int iv, int ev, float modifier);
     void calculateStats();
+    double calculateTypeEffectiveness(PokemonType moveType, const std::vector<float> opponentWeaknesses);
+    double calculateDamage(double power, double attack, double defense, double typeEffectiveness, bool isSTAB);
 
     friend class Team;
 public:
 
+    Pokemon() : name("Unknown"), nature(Nature::Bashful), types(), baseStats(), evs(), ivs(), stats(), moves() {}
+
     Pokemon(const std::string& name) : name(name), nature(Nature::Bashful), types(), baseStats(), evs(), ivs(), stats(), moves() {
         findPokemonData(name);
         calculateStats();
+        combinedWeakness = types.getCombinedWeakness();
+    }
+
+    // TODO: After items are added, make sure we initialize the item here from the parsed file
+    Pokemon(const std::string& name, const PokemonStats& evs, Nature nature, const std::array<std::string, 4>& moveNames)
+        : name(name), evs(evs), nature(nature), types(), baseStats(), ivs(), stats(), moves() {
+
+        findPokemonData(name); // This both validates that a given pokemon is in the database and loads the baseStats
+
+        for (size_t i = 0; i < moveNames.size(); ++i) {
+            setMove(moveNames[i], i);
+        }
+
+        calculateStats();
+        combinedWeakness = types.getCombinedWeakness();
+    }
+
+    // Copy constructor
+    Pokemon(const Pokemon& other) 
+        : name(other.name), types(other.types), level(other.level), baseStats(other.baseStats), evs(other.evs),
+          ivs(other.ivs), stats(other.stats), nature(other.nature), moves(other.moves),
+          combinedWeakness(other.combinedWeakness) {}
+
+    Pokemon& operator=(const Pokemon& other) {
+        if (this != &other) {
+            // Copy all the fields
+            name = other.name;
+            types = other.types;
+            level = other.level;
+            baseStats = other.baseStats;
+            evs = other.evs;
+            ivs = other.ivs;
+            stats = other.stats;
+            nature = other.nature;
+            moves = other.moves;
+            combinedWeakness = other.combinedWeakness;
+        }
+        return *this;
     }
 
     void displayInfo();
     void displayMoves();
     void displayWeaknesses();
 
-    std::vector<float> getWeaknesses() {return types.getCombinedWeakness(); };
-    std::string getName() const { return name; };
-    Move getMove(size_t position) { return moves[position]; };
+    std::vector<float> getWeaknesses() { return combinedWeakness; }
+    std::string getName() const { return name; }
+    PokemonStats& getEvs() { return evs; }
+    PokemonStats getStats() const { return stats; }
+    Nature getNature() const { return nature; }
+    Type getType() const { return types; }
+    Move getMove(size_t position) { return moves[position]; }
 
-    void setStats(std::array<int, 6> givenStats) { baseStats.setStats(givenStats); };
+    inline void setStats(std::array<int, 6> givenStats) { baseStats.setStats(givenStats); }
     void setMove(const std::string& moveName, size_t index);
+
     void parseInfo(const std::string& input);
+    double useMove(size_t moveIndex, Pokemon opponentPokemon);
 };

@@ -1,6 +1,9 @@
 # Ignore Visual Studio Code settings
 .vscode/
 
+# Ignore build dir
+build/
+
 # Ignore out dir
 out/
 
