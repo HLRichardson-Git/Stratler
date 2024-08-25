@@ -16,7 +16,7 @@ private:
     // TODO: Add items
     PokemonStats baseStats;
     PokemonStats evs;
-    PokemonStats ivs;
+    PokemonStats ivs = {31, 31, 31, 31, 31, 31};
     PokemonStats stats;
     Nature nature;
     std::array<Move, 4> moves;
@@ -26,15 +26,15 @@ private:
     int calculateHP(int hp, int iv, int ev);
     int calculateOtherStats(int base, int iv, int ev, float modifier);
     void calculateStats();
-    double calculateTypeEffectiveness(PokemonType moveType, const std::vector<float> opponentWeaknesses);
+    double calculateTypeEffectiveness(PokemonType moveType, const std::vector<float>& opponentWeaknesses);
     double calculateDamage(double power, double attack, double defense, double typeEffectiveness, bool isSTAB);
 
     friend class Team;
 public:
 
-    Pokemon() : name("Unknown"), nature(Nature::Bashful), types(), baseStats(), evs(), ivs(), stats(), moves() {}
+    Pokemon() : name("Unknown"), nature(Nature::Bashful), types(), baseStats(), evs(), stats(), moves() {}
 
-    Pokemon(const std::string& name) : name(name), nature(Nature::Bashful), types(), baseStats(), evs(), ivs(), stats(), moves() {
+    Pokemon(const std::string& name) : name(name), nature(Nature::Bashful), types(), baseStats(), evs(), stats(), moves() {
         findPokemonData(name);
         calculateStats();
         combinedWeakness = types.getCombinedWeakness();
@@ -42,7 +42,7 @@ public:
 
     // TODO: After items are added, make sure we initialize the item here from the parsed file
     Pokemon(const std::string& name, const PokemonStats& evs, Nature nature, const std::array<std::string, 4>& moveNames)
-        : name(name), evs(evs), nature(nature), types(), baseStats(), ivs(), stats(), moves() {
+        : name(name), evs(evs), nature(nature), types(), baseStats(), stats(), moves() {
 
         findPokemonData(name); // This both validates that a given pokemon is in the database and loads the baseStats
 

@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <cmath>
 #include <vector>
@@ -23,28 +24,28 @@ void Pokemon::findPokemonData(const std::string& name) {
 }
 
 int Pokemon::calculateHP(int hp, int iv, int ev) {
-    // TODO: Currently the level is hardcoded, we can change that now that we have the variable
-    return floor((2 * hp + iv + floor(ev / 4)) * 100 / 100) + 100 + 10;
+    return floor((2 * hp + iv + floor(ev / 4)) * level / 100) + 100 + 10;
 }
 
 int Pokemon::calculateOtherStats(int base, int iv, int ev, float modifier) {
-    // TODO: Currently the level is hardcoded, we can change that now that we have the variable
-    return floor((floor((2 * base + iv + floor(ev / 4)) * 100 / 100) + 5) * modifier);
+    //return floor((floor((2 * base + iv + floor(ev / 4.0)) * level / 100.0) + 5) * modifier);
+
+    float intermediate = (2.0f * base + iv + floor(ev) / 4.0f) * level / 100.0f;
+    return static_cast<int>(floor((intermediate + 5) * modifier));
 }
 
 void Pokemon::calculateStats() {
     const NatureModifiers& modifiers = natureModifiersMap.at(nature);
 
-    // TODO: Currently IVs are hardcoded at 31, this is not a problem and should be the case 99.99% of the time but would be nicer to be robust
-    stats.stats[0] = calculateHP(baseStats.stats[0], 31, evs.stats[0]); // HP
-    stats.stats[1] = calculateOtherStats(baseStats.stats[1], 31, evs.stats[1], modifiers.attackModifier); // Atk
-    stats.stats[2] = calculateOtherStats(baseStats.stats[2], 31, evs.stats[2], modifiers.defenseModifier); // Def
-    stats.stats[3] = calculateOtherStats(baseStats.stats[3], 31, evs.stats[3], modifiers.specialAttackModifier); // SpA
-    stats.stats[4] = calculateOtherStats(baseStats.stats[4], 31, evs.stats[4], modifiers.specialDefenseModifier); // SpD
-    stats.stats[5] = calculateOtherStats(baseStats.stats[5], 31, evs.stats[5], modifiers.speedModifier); // Spe
+    stats.stats[0] = calculateHP(baseStats.stats[0], ivs.stats[0], evs.stats[0]); // HP
+    stats.stats[1] = calculateOtherStats(baseStats.stats[1], ivs.stats[1], evs.stats[1], modifiers.attackModifier); // Atk
+    stats.stats[2] = calculateOtherStats(baseStats.stats[2], ivs.stats[2], evs.stats[2], modifiers.defenseModifier); // Def
+    stats.stats[3] = calculateOtherStats(baseStats.stats[3], ivs.stats[3], evs.stats[3], modifiers.specialAttackModifier); // SpA
+    stats.stats[4] = calculateOtherStats(baseStats.stats[4], ivs.stats[4], evs.stats[4], modifiers.specialDefenseModifier); // SpD
+    stats.stats[5] = calculateOtherStats(baseStats.stats[5], ivs.stats[5], evs.stats[5], modifiers.speedModifier); // Spe
 }
 
-double Pokemon::calculateTypeEffectiveness(PokemonType moveType, const std::vector<float> opponentWeaknesses) {
+double Pokemon::calculateTypeEffectiveness(PokemonType moveType, const std::vector<float>& opponentWeaknesses) {
     double effectiveness = opponentWeaknesses[static_cast<int>(moveType)];
     return effectiveness;
 }
@@ -191,36 +192,35 @@ void Pokemon::parseInfo(const std::string& input) {
 }
 
 double Pokemon::useMove(size_t moveIndex, Pokemon opponentPokemon) {
-    if (moveIndex < 0 || moveIndex >= 4) {
-            throw std::out_of_range("Invalid move index");
-        }
+    if (moveIndex >= 4) {
+       throw std::out_of_range("Invalid move index");
+    }
 
-        Move& move = moves[moveIndex];
-        bool isSTAB = (move.getType() == getType().getPrimaryType() || move.getType() == getType().getSecondaryType());
+    Move move = moves[moveIndex];
+    bool isSTAB = (move.getType() == getType().getPrimaryType() || move.getType() == getType().getSecondaryType());
 
-        int power = move.power;
-        int attackStat = 0;
-        int defenseStat = 0;
-        double typeEffectiveness = calculateTypeEffectiveness(move.getType(), opponentPokemon.getWeaknesses());
+    int power = move.power;
+    int attackStat = 0;
+    int defenseStat = 0;
+    double typeEffectiveness = calculateTypeEffectiveness(move.getType(), opponentPokemon.getWeaknesses());
 
-        switch (move.getCategory()) {
-            case STATUS:
-                return 0;
-                break;
-            case PHYSICAL:
-                attackStat = stats.getAttack();
-                defenseStat = opponentPokemon.getStats().getDefense();
-                break;
-            case SPECIAL: 
-                attackStat = stats.getSpecialAttack();
-                defenseStat = opponentPokemon.getStats().getSpecialDefense();
-                break;
-            default:
-                throw std::invalid_argument("Invalid move category given.");
-                break;
-        }
+    switch (move.getCategory()) {
+        case STATUS:
+            return 0;
+            break;
+        case PHYSICAL:
+            attackStat = stats.getAttack();
+            defenseStat = opponentPokemon.getStats().getDefense();
+            break;
+        case SPECIAL: 
+            attackStat = stats.getSpecialAttack();
+            defenseStat = opponentPokemon.getStats().getSpecialDefense();
+            break;
+        default:
+            throw std::invalid_argument("Invalid move category given.");
+    }
 
-        double damage = calculateDamage(power, attackStat, defenseStat, typeEffectiveness, isSTAB);
+    double damage = calculateDamage(power, attackStat, defenseStat, typeEffectiveness, isSTAB);
 
-        return damage;
+    return damage;
 }

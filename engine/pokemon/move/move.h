@@ -30,6 +30,22 @@ struct Move {
     Move(const std::string& moveName, PokemonType type, Category category, int power, int accuracy, int pp) 
         : name(moveName), type(type), category(category), power(power), accuracy(accuracy), pp(pp) {}
 
+    // Copy constructor
+    Move(const Move& other) 
+        : name(other.name), type(other.type), category(other.category), power(other.power), accuracy(other.accuracy), pp(other.pp) {}
+
+    Move& operator=(const Move& other) {
+        if (this != &other) { // Prevent self-assignment
+            name = other.name;
+            type = other.type;
+            category = other.category;
+            power = other.power;
+            accuracy = other.accuracy;
+            pp = other.pp;
+        }
+        return *this;
+    }
+
     std::string getName() const { return name; }
     PokemonType getType() const { return type; }
     Category getCategory() const { return category; }

@@ -8,6 +8,7 @@
 
 using MoveDatabase = std::map<std::string, Move>;
 
+// TODO: Add hidden power for all types
 static const MoveDatabase move_database = {
     {"Pound", {"Pound", NORMAL, PHYSICAL, 40, 100, 35 } },
     {"Karate Chop", {"Karate Chop", FIGHTING, PHYSICAL, 50, 100, 25 } },

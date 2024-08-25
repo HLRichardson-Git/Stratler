@@ -10,6 +10,8 @@ struct PokemonStats {
     std::array<int, 6> stats; // HP, Attack, Defense, Special Attack, Special Defense, Speed
 
     PokemonStats() : stats({0, 0, 0, 0, 0, 0}) {}
+    PokemonStats(int hp, int atk, int def, int spa, int spd, int spe) 
+        : stats({hp, atk, def, spa, spd, spe}) {}
 
     void setStats(std::array<int, 6> givenStats) {
         for (size_t i = 0; i < 6; i++) {

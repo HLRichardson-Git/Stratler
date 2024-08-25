@@ -4,14 +4,38 @@ include(GoogleTest)
 
 set (This tests)
 
-set (Sources
+#set (Sources
+#    typeTest.cpp
+#    pokemon/stats_calculation/test_stat_calculation.cpp
+#    ${PROJECT_SOURCE_DIR}/engine/pokemon/type/type.cpp
+#    ${PROJECT_SOURCE_DIR}/engine/state/state.cpp
+#)
+
+# Collect all source files from the engine directory
+file(GLOB_RECURSE EngineSources 
+    ${PROJECT_SOURCE_DIR}/engine/**/*.cpp
+)
+
+# Manually list your test sources
+set(TestSources
     typeTest.cpp
-    ${PROJECT_SOURCE_DIR}/engine/pokemon/type/type.cpp
+    pokemon/stats_calculation/test_stat_calculation.cpp
+)
+
+# Combine test sources with engine sources
+set(Sources
+    ${TestSources}
+    ${EngineSources}
+    ${PROJECT_SOURCE_DIR}/util/table/table.cpp
 )
 
 add_executable (${This} ${Sources})
 
-target_include_directories(${This} PRIVATE ${PROJECT_SOURCE_DIR}/engine)
+target_include_directories(${This} 
+    PRIVATE 
+        ${PROJECT_SOURCE_DIR}/engine
+        ${PROJECT_SOURCE_DIR}/tests
+)
 
 target_link_libraries (${This} PRIVATE GTest::gtest_main)
 

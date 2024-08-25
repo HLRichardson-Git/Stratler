@@ -26,18 +26,19 @@ private:
 
 public:
 
-    Team(const Side& playerChoice) {
-        std::string filePath = "";
+    //Team(const Side& playerChoice) {
+    Team(const std::string& filePath) {
+        /*std::string filePath = "";
         switch (playerChoice) {
             case PLAYER:
-                filePath = "../data/player_teams/playerTeam.txt";
+                filePath = "../../data/player_teams/playerTeam.txt";
                 break;
             case OPPONENT:
-                filePath = "../data/player_teams/opponentTeam.txt";
+                filePath = "../../data/player_teams/opponentTeam.txt";
                 break;
             default:
                 throw std::invalid_argument("Invalid player choice given.");
-        }
+        }*/
         loadFromFile(filePath);
         calculateTeamWeaknesses();
     }

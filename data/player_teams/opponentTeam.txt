@@ -1,0 +1,53 @@
+Mawile @ Mawilite
+Ability: Intimidate
+EVs: 248 HP / 16 Atk / 244 SpD
+Adamant Nature
+- Iron Head
+- Play Rough
+- Sucker Punch
+- Baton Pass
+
+Zapdos @ Leftovers
+Ability: Pressure
+EVs: 252 HP / 172 Def / 68 SpA / 16 Spe
+Bold Nature
+- Thunderbolt
+- Roost
+- Defog
+- Heat Wave
+
+Ferrothorn @ Leftovers
+Ability: Iron Barbs
+EVs: 252 HP / 88 Def / 168 SpD
+Relaxed Nature
+- Spikes
+- Leech Seed
+- Gyro Ball
+- Power Whip
+
+Garchomp @ Life Orb
+Ability: Rough Skin
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Swords Dance
+- Dragon Claw
+- Earthquake
+- Fire Fang
+
+Crawdaunt @ Life Orb
+Ability: Adaptability
+EVs: 4 HP / 252 Atk / 252 Spe
+Jolly Nature
+- Swords Dance
+- Crabhammer
+- Knock Off
+- Aqua Jet
+
+Toxicroak @ Life Orb
+Ability: Dry Skin
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Swords Dance
+- Gunk Shot
+- Drain Punch
+- Sucker Punch
