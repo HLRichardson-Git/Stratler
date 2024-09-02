@@ -20,6 +20,24 @@ struct MoveDamage {
 
 bool compareByDamage(const MoveDamage& a, const MoveDamage& b);
 
+struct GameState {
+    Pokemon playerPokemon;
+    Pokemon opponentPokemon;
+    std::vector<MoveDamage> playerMoves;
+    std::vector<MoveDamage> opponentMoves;
+    int playerHP;
+    int opponentHP;
+    bool isPlayerTurn; // Indicates if it's the player's turn to move
+};
+
+struct MinimaxResult {
+    int score;
+    MoveDamage bestMoveDamage;
+    //Move bestMove; // Track the best move
+};
+
+MinimaxResult minimax(const GameState& stateOfGame, int depth, bool isMaximizing);
+
 enum Side {
     UNKNOWN,
     PLAYER,
@@ -103,6 +121,7 @@ public:
     std::vector<MoveDamage> calculateMoveDamages(Pokemon& attacker, const Pokemon& defender);
     std::vector<MoveDamage> rankMovesByDamage(int opponentPokemonIndex);
     void evaluateMoveViability(int opponentPokemonIndex);
+    void evaluateMatchup(int opponentPokemonIndex);
     //std::vector<std::pair<Move, double>> Game::calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex)
 };
 

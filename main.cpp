@@ -21,6 +21,12 @@ int main(){
 
     std::cout << "Values may be wrong since these values do not account for items" << std::endl;
     //std::vector<MoveDamage> temp = game.rankMovesByDamage(0);
-    game.evaluateMoveViability(1);
-    //game.calculateBestMove(0, 1, 0);
+    //game.evaluateMoveViability(1);
+    //game.evaluateMatchup(0);
+    for (int i = 0; i < 6; i++) {
+        std::cout << "Against opponent pokemon: " << teamB.getPokemon(i).getName() << std::endl;
+        std::cout << "The optimal player move is:" << std::endl;
+        game.evaluateMatchup(i);
+        std::cout << std::endl;
+    }
 }
