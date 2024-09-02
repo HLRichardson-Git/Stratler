@@ -5,8 +5,20 @@
 #include <sstream>
 #include <array>
 #include <vector>
+#include <algorithm>
 
 #include "../pokemon/pokemon.h"
+
+struct MoveDamage {
+    Move move;
+    double damage;
+    Pokemon activePokemon;
+    bool isViable = false;
+
+    MoveDamage(const Move& m, double d, const Pokemon& pokemon) : move(m), damage(d), activePokemon(pokemon) {}
+};
+
+bool compareByDamage(const MoveDamage& a, const MoveDamage& b);
 
 enum Side {
     UNKNOWN,
@@ -87,7 +99,11 @@ public:
     Team& getOpponent() { return opponent; }
 
     void doTurn();
-    void calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex, int depth);
+    //void calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex, int depth);
+    std::vector<MoveDamage> calculateMoveDamages(Pokemon& attacker, const Pokemon& defender);
+    std::vector<MoveDamage> rankMovesByDamage(int opponentPokemonIndex);
+    void evaluateMoveViability(int opponentPokemonIndex);
+    //std::vector<std::pair<Move, double>> Game::calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex)
 };
 
 enum ActionType {

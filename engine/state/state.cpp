@@ -4,6 +4,10 @@
 #include "state.h"
 #include "../../util/table/table.h"
 
+bool compareByDamage(const MoveDamage& a, const MoveDamage& b) {
+    return a.damage > b.damage;
+}
+
 void Team::loadFromFile(const std::string& filePath) {
         std::ifstream file(filePath);
         if (!file.is_open()) {
@@ -86,23 +90,7 @@ void Team::displayTeamInfo() {
     getPokemon(5).displayInfo();
 }
 
-void Game::calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex, int depth) {
-    /*double bestValue = -std::numeric_limits<double>::infinity();
-    int bestMoveIndex = -1;
-
-    for (int i = 0; i < playerTeam.getActivePokemon().getMoveCount(); i++) {
-        Team tempOpponentTeam = opponentTeam;
-        // Simulate the move
-        playerTeam.getActivePokemon().useMove(i, tempOpponentTeam.getActivePokemon());
-        double moveValue = minimax(playerTeam, tempOpponentTeam, false, depth);
-        if (moveValue > bestValue) {
-            bestValue = moveValue;
-            bestMoveIndex = i;
-        }
-    }
-
-    return bestMoveIndex;*/
-
+/*void Game::calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex, int depth) {
     for (int i = 0; i < 4; i++) {
         //Team tempOpponentTeam = opponent;
 
@@ -114,4 +102,154 @@ void Game::calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex, i
         std::cout << "Move: " << player.getPokemon(playerPokemonIndex).getMove(i).getName() << ", Estimated Damage: " << damage << std::endl;
     }
 
+}*/
+
+/*void Game::calculateBestMove(int opponentPokemonIndex) {
+    std::vector<MoveDamage> allMovesWithDamage;
+
+    // Loop through each Pokémon in the player's team
+    for (int i = 0; i < TEAM_SIZE; i++) {
+        Pokemon& currentPokemon = player.getPokemon(i);
+        std::string& pokemonName = currentPokemon.getName();
+
+        // Loop through each move of the Pokémon
+        for (int j = 0; j < 4; j++) {
+            // Calculate damage of the move
+            double damage = currentPokemon.useMove(j, opponent.getPokemon(opponentPokemonIndex));
+
+            // Store the move, its damage, and the Pokémon's name
+            allMovesWithDamage.emplace_back(currentPokemon.getMove(j), damage, pokemonName);
+        }
+    }
+
+    // Sort the moves by damage in descending order
+    std::sort(allMovesWithDamage.begin(), allMovesWithDamage.end(), compareByDamage);
+
+    // Display the ranked moves
+    for (const auto& moveDamage : allMovesWithDamage) {
+        std::cout << "Pokemon: " << moveDamage.pokemonName 
+                  << ", Move: " << moveDamage.move.getName() 
+                  << ", Estimated Damage: " << moveDamage.damage 
+                  << std::endl;
+    }
+}*/
+
+/*void Game::calculateBestMove(int opponentPokemonIndex) {
+    std::vector<MoveDamage> moveDamageList;
+
+    // Loop through all of the player's Pokémon
+    for (int playerPokemonIndex = 0; playerPokemonIndex < TEAM_SIZE; ++playerPokemonIndex) {
+        Pokemon& playerPokemon = player.getPokemon(playerPokemonIndex);
+
+        // Loop through all 4 moves of the Pokémon
+        for (int i = 0; i < 4; i++) {
+            Move move = playerPokemon.getMove(i);
+            
+            // Calculate the damage the move would do to the opponent's Pokémon
+            double damage = playerPokemon.useMove(i, opponent.getPokemon(opponentPokemonIndex));
+
+            // Add the move, damage, and Pokémon name to the list
+            moveDamageList.emplace_back(move, damage, playerPokemon.getName());
+        }
+    }
+
+    // Sort the moves by damage in descending order
+    std::sort(moveDamageList.begin(), moveDamageList.end(), compareByDamage);
+
+    // Display the sorted moves
+    for (const auto& md : moveDamageList) {
+        std::cout << md.pokemonName << " vs " << opponent.getPokemon(opponentPokemonIndex).getName()
+                  << ", Move: " << md.move.getName() << ", Estimated Damage: " << md.damage << std::endl;
+    }
+}*/
+
+std::vector<MoveDamage> Game::calculateMoveDamages(Pokemon& attacker, const Pokemon& defender) {
+    std::vector<MoveDamage> moveDamageList;
+    int defenderHP = defender.getStats().getHP();
+
+    for (int i = 0; i < 4; i++) {
+        Move move = attacker.getMove(i);
+        double damage = attacker.useMove(i, defender);
+        double damagePercentage = (damage / defenderHP) * 100;
+        moveDamageList.emplace_back(move, damagePercentage, attacker);
+    }
+
+    return moveDamageList;
+}
+
+std::vector<MoveDamage> Game::rankMovesByDamage(int opponentPokemonIndex) {
+    std::vector<MoveDamage> allMoves;
+    Pokemon& opponentPokemon = opponent.getPokemon(opponentPokemonIndex);
+
+    // Loop through all of the player's Pokémon
+    for (int playerPokemonIndex = 0; playerPokemonIndex < TEAM_SIZE; ++playerPokemonIndex) {
+        Pokemon& playerPokemon = player.getPokemon(playerPokemonIndex);
+
+        std::vector<MoveDamage> moveDamages = calculateMoveDamages(playerPokemon, opponentPokemon);
+
+        allMoves.insert(allMoves.end(), moveDamages.begin(), moveDamages.end());
+    }
+
+    // Sort the moves by damage percentage in descending order
+    std::sort(allMoves.begin(), allMoves.end(), compareByDamage);
+
+    /*for (const auto& md : allMoves) {
+        std::cout << md.activePokemon.getName() << " vs " << opponentPokemon.getName()
+                  << ", Move: " << md.move.getName() << ", Estimated Damage: " 
+                  << md.damage << "% of HP" << std::endl;
+    }*/
+
+    return allMoves;
+}
+
+void Game::evaluateMoveViability(int opponentPokemonIndex) {
+    std::vector<MoveDamage> rankedMoves = rankMovesByDamage(opponentPokemonIndex);
+    Pokemon& opponentPokemon = opponent.getPokemon(opponentPokemonIndex);
+
+    for (MoveDamage& moveDamage : rankedMoves) {
+        Pokemon playerPokemon = moveDamage.activePokemon;
+
+        // If a move does 0 damage, but is not a status move then the opponent is immune
+        if (moveDamage.move.category != STATUS && moveDamage.damage == 0.0) {
+            moveDamage.isViable = false;
+            continue;
+        }
+
+        // Check if the player's Pokémon is faster
+        if (playerPokemon.getStats().getSpeed() > opponentPokemon.getStats().getSpeed()) {
+            // TODO: They could be faster, but we need to go in depth and see if the player can kill before the
+            //       opponent kills out pokemon.
+            moveDamage.isViable = true;
+            continue;
+        }
+
+        // If not faster, check if the Pokémon can survive a hit
+        std::vector<MoveDamage> opponentBestMoves = calculateMoveDamages(opponentPokemon, playerPokemon);
+        bool canSurvive = false;
+        for (const auto& opponentMoveDamage : opponentBestMoves) {
+            if (opponentMoveDamage.damage < 100.0) {
+                canSurvive = true;
+            } else {
+                canSurvive = false;
+                break;
+            }
+        }
+        moveDamage.isViable = canSurvive;
+    }
+
+    std::vector<MoveDamage> viableMoves;
+    for (const auto& moveDamage : rankedMoves) {
+        if (moveDamage.isViable) {
+            viableMoves.push_back(moveDamage);
+        }
+    }
+
+    // Sort viable moves by damage in descending order
+    std::sort(viableMoves.begin(), viableMoves.end(), compareByDamage);
+
+    for (const auto& md : viableMoves) {
+    std::cout << md.activePokemon.getName() << " vs " << opponentPokemon.getName()
+                << ", Move: " << md.move.getName() << ", Estimated Damage: " 
+                << md.damage << "% of HP" << std::endl;
+    }
 }

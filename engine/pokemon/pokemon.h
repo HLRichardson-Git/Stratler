@@ -87,7 +87,7 @@ public:
     PokemonStats getStats() const { return stats; }
     Nature getNature() const { return nature; }
     Type getType() const { return types; }
-    Move getMove(size_t position) { return moves[position]; }
+    Move getMove(size_t position) const { return moves[position]; }
 
     inline void setStats(std::array<int, 6> givenStats) { baseStats.setStats(givenStats); }
     void setMove(const std::string& moveName, size_t index);

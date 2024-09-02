@@ -20,6 +20,7 @@ int main(){
     teamB.displayTeamInfo();
 
     std::cout << "Values may be wrong since these values do not account for items" << std::endl;
-    game.calculateBestMove(1, 0, 0);
+    //std::vector<MoveDamage> temp = game.rankMovesByDamage(0);
+    game.evaluateMoveViability(1);
     //game.calculateBestMove(0, 1, 0);
 }
