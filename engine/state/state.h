@@ -27,13 +27,12 @@ struct GameState {
     std::vector<MoveDamage> opponentMoves;
     int playerHP;
     int opponentHP;
-    bool isPlayerTurn; // Indicates if it's the player's turn to move
+    bool isPlayerTurn;
 };
 
 struct MinimaxResult {
     int score;
     MoveDamage bestMoveDamage;
-    //Move bestMove; // Track the best move
 };
 
 MinimaxResult minimax(const GameState& stateOfGame, int depth, bool isMaximizing);
@@ -49,26 +48,13 @@ class Team {
 private:
     std::array<Pokemon, TEAM_SIZE> roster;
     std::array<std::vector<float>, TEAM_SIZE> teamWeaknesses;
+    unsigned int currentPokemonIndex = 0;
 
     void loadFromFile(const std::string& filePath);
-
     void calculateTeamWeaknesses();
 
 public:
-
-    //Team(const Side& playerChoice) {
     Team(const std::string& filePath) {
-        /*std::string filePath = "";
-        switch (playerChoice) {
-            case PLAYER:
-                filePath = "../../data/player_teams/playerTeam.txt";
-                break;
-            case OPPONENT:
-                filePath = "../../data/player_teams/opponentTeam.txt";
-                break;
-            default:
-                throw std::invalid_argument("Invalid player choice given.");
-        }*/
         loadFromFile(filePath);
         calculateTeamWeaknesses();
     }
@@ -95,54 +81,70 @@ public:
 
     void displayTeamsWeaknesses();
     void displayTeamInfo();
+    void listTeam();
 
-    Pokemon& getPokemon(int index) { return roster[index]; };
+    Pokemon& getPokemon(int index) { return roster[index]; }
+    Pokemon& getCurrentPokemon() { return roster[currentPokemonIndex]; }
+    unsigned int getCurrentPokemonIndex() { return currentPokemonIndex; }
+
+    void setCurrentPokemonIndex(unsigned int index) { if (index <= TEAM_SIZE) currentPokemonIndex = index; }
 };
 
-class Game {
-private:
-    int turnCounter;
-    Team player;
-    Team opponent;
-
-public:
-    Game(const Team& player, const Team& opponent) 
-        : turnCounter(0), player(player), opponent(opponent) {}
-
-    void incrementTurn() { turnCounter++; }
-    
-    int getTurnCounter() const { return turnCounter; }
-
-    Team& getPlayer() { return player; }
-    Team& getOpponent() { return opponent; }
-
-    void doTurn();
-    //void calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex, int depth);
-    std::vector<MoveDamage> calculateMoveDamages(Pokemon& attacker, const Pokemon& defender);
-    std::vector<MoveDamage> rankMovesByDamage(int opponentPokemonIndex);
-    void evaluateMoveViability(int opponentPokemonIndex);
-    void evaluateMatchup(int opponentPokemonIndex);
-    //std::vector<std::pair<Move, double>> Game::calculateBestMove(int playerPokemonIndex, int opponentPokemonIndex)
-};
+bool confirmChoice();
 
 enum ActionType {
     ATTACK,
     SWITCH
 };
 
+/*struct TurnHistory {
+    ActionType playerChoice;
+    ActionType opponentChoice;
+}
 class Turn {
 private:
-    ActionType actionType;
+    TurnHistory currentTurnHistory;
+    ActionType getTurnOption();
 
 public:
-    Turn(ActionType actionType)
-        : actionType(actionType) {
-        if (actionType == ATTACK) {
-
-        } else if (actionType == SWITCH) {
-
-        }
+    Turn() {
+        getTurnOption();
     }
 
-    ActionType getActionType() const { return actionType; }
+    
+};*/
+
+class Game {
+private:
+    Team player;
+    Team opponent;
+
+    int turnCounter;
+    //std::vector<Turn> history;
+
+public:
+    Game(const Team& player, const Team& opponent) 
+        : turnCounter(0), player(player), opponent(opponent) {}
+
+    void incrementTurn() { turnCounter++; }
+    int getTurnCounter() const { return turnCounter; }
+
+    Team& getPlayer() { return player; }
+    Team& getOpponent() { return opponent; }
+    Pokemon& getCurrentPlayerPokemon() { return player.getCurrentPokemon(); }
+    Pokemon& getCurrentOpponentPokemon() { return opponent.getCurrentPokemon(); }
+
+    void setPlayerCurrentPokemonIndex(int index) { player.setCurrentPokemonIndex(index); }
+    void setOpponentCurrentPokemonIndex(int index) { opponent.setCurrentPokemonIndex(index); }
+
+    std::vector<MoveDamage> calculateMoveDamages(Pokemon& attacker, const Pokemon& defender);
+    std::vector<MoveDamage> rankMovesByDamage(int opponentPokemonIndex);
+    void evaluateMoveViability(int opponentPokemonIndex);
+    void evaluateMatchup(int opponentPokemonIndex);
+    
+    void startGame();
+    //Turn doTurn();
+    void doTurn();
+    void playGame();
+    bool isGameOver();
 };
