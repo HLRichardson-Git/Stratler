@@ -91,6 +91,7 @@ public:
 
     inline void setStats(std::array<int, 6> givenStats) { baseStats.setStats(givenStats); }
     void setMove(const std::string& moveName, size_t index);
+    void setHP(int health) { stats.setHP(health); }
 
     void parseInfo(const std::string& input);
     double useMove(size_t moveIndex, Pokemon opponentPokemon);

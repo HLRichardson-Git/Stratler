@@ -144,7 +144,12 @@ public:
     
     void startGame();
     //Turn doTurn();
-    void doTurn();
+    //void doTurn();
+    void handleAttack(bool isPlayer);
+    void handleSwitch(bool isPlayer);
+    void promptForMove(bool isPlayer);
+    void processTurn();
+    void updateHealth();
     void playGame();
     bool isGameOver();
 };

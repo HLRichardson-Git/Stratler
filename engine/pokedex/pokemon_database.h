@@ -33,6 +33,9 @@ struct PokemonStats {
     int getSpecialDefense() const { return stats[4]; }
     int getSpeed() const { return stats[5]; }
 
+    // Setter methods
+    void setHP(int health) { stats[0] = health; }
+
     void displayStats() {
         std::cout << "hp " << stats[0] << std::endl;
         std::cout << "atk " << stats[1] << std::endl;

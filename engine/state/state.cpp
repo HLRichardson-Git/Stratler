@@ -284,123 +284,90 @@ void Game::startGame() {
     getOpponent().setCurrentPokemonIndex(opponentIndex);
 }
 
-/*ActionType Turn::getTurnOption() {
-    ActionType choice;
-    std::string choiceString = "";
-    do {
-        std::cout << "Would you like to ATTACK?";
-        if (confirmChoice()) {
-            choice = ActionType::ATTACK;
-            choiceString = "ATTACK";
-        }
-        std::cout << "Would you like to SWITCH?";
-        if (confirmChoice()) {
-            choice = ActionType::SWITCH;
-            choiceString = "SWITCH";
-        }
-        std::cout << "Is this correct? " << choiceString;
-    } while (!confirmChoice());
+void Game::handleAttack(bool isPlayer) {
+    int moveIndex;
+    std::cout << (isPlayer ? "Choose your move:" : "Opponents move is...") << std::endl;
+    for (size_t i = 0; i < 4; ++i) {
+        std::cout << i << ": " << (isPlayer ? getPlayer().getCurrentPokemon().getMove(i).getName() : getOpponent().getCurrentPokemon().getMove(i).getName()) << std::endl;
+    }
+    std::cin >> moveIndex;
+}
 
-    return choice;
-}*/
+void Game::handleSwitch(bool isPlayer) {
+    int pokemonIndex;
+    std::cout << (isPlayer ? "Choose your pokemon:" : "Opponent is switching pokemon...") << std::endl;
+    for (size_t i = 0; i < 6; ++i) {
+        std::cout << i << ": " << (isPlayer ? getPlayer().getPokemon(i).getName() : getOpponent().getPokemon(i).getName()) << std::endl;
+    }
+    std::cin >> pokemonIndex;
+    if (isPlayer) {
+        getPlayer().setCurrentPokemonIndex(pokemonIndex);
+    } else {
+        getOpponent().setCurrentPokemonIndex(pokemonIndex);
+    }
+}
 
-//Turn Game::doTurn() {
-void Game::doTurn() {
-    ActionType playerChoice, opponentChoice;
-    std::string playerChoiceString, opponentChoiceString = "";
+void Game::promptForMove(bool isPlayer) {
+    std::cout << (isPlayer ? "What will your (PLAYER) move be?" : "What will the OPPONENT do?") << std::endl;
+    std::cout << "1. Attack" << std::endl;
+    std::cout << "2. Switch" << std::endl;
 
-    std::cout << "Players optimal move is: " << std::endl;
+    int choice;
+    std::cin >> choice;
+
+    switch (choice) {
+        case 1:
+            handleAttack(isPlayer);
+            break;
+        case 2:
+            handleSwitch(isPlayer);
+            break;
+        default:
+            std::cout << "Invalid choice, please try again." << std::endl;
+            promptForMove(isPlayer);
+            break;
+    }
+}
+
+
+void Game::processTurn() {
     evaluateMatchup(getOpponent().getCurrentPokemonIndex());
+    promptForMove(true);  // Player's turn
+    promptForMove(false); // Opponent's turn
+}
 
-    std::cout << "What will your (PLAYER) move be?" << std::endl;
-    do {
-        std::cout << "Would you like to ATTACK?" << std::endl;
-        if (confirmChoice()) {
-            playerChoice = ActionType::ATTACK;
-            playerChoiceString = "ATTACK";
-        }
-        std::cout << "\nWould you like to SWITCH?" << std::endl;
-        if (confirmChoice()) {
-            playerChoice = ActionType::SWITCH;
-            playerChoiceString = "SWITCH";
-        }
-        std::cout << "\nIs this correct? " << playerChoiceString << std::endl;
-    } while (!confirmChoice());
+void Game::updateHealth() {
+    std::cout << "Your " << getCurrentPlayerPokemon().getName() <<"'s HP: " << getCurrentPlayerPokemon().getStats().getHP() << std::endl;
+    std::cout << "Opponent's " << getCurrentOpponentPokemon().getName() << "'s HP: " << getCurrentOpponentPokemon().getStats().getHP() << std::endl;
+    
+    // Ask for damage dealt and received
+    std::cout << "How much damage did you deal to the opponent?" << std::endl;
+    int playerDamage;
+    std::cin >> playerDamage;
 
-    if (playerChoice == ActionType::SWITCH) {
-        unsigned int playerIndex;
-        do {
-            getPlayer().listTeam();
-            std::cout << "Which Pokemon will you switch to? "; std::cin >> playerIndex;
-            getPlayer().setCurrentPokemonIndex(playerIndex);
-            std::cout << "Is " << getPlayer().getPokemon(playerIndex).getName() << " correct? " << std::endl;
-        } while (!confirmChoice());
-    }
+    std::cout << "How much damage did the opponent deal to you?" << std::endl;
+    int opponentDamage;
+    std::cin >> opponentDamage;
 
-    /*  OPPONENT  */
-    std::cout << "What was you opponents move?" << std::endl;
-    do {
-        std::cout << "Did they ATTACK?" << std::endl;
-        if (confirmChoice()) {
-            opponentChoice = ActionType::ATTACK;
-            opponentChoiceString = "ATTACK";
-        }
-        std::cout << "\nDid they SWITCH?" << std::endl;
-        if (confirmChoice()) {
-            opponentChoice = ActionType::SWITCH;
-            opponentChoiceString = "SWITCH";
-        }
-        std::cout << "\nIs this correct? " << opponentChoiceString << std::endl;
-    } while (!confirmChoice());
+    // Update Pokémon health based on the actual damage
+    int playerHP = getCurrentPlayerPokemon().getStats().getHP() - opponentDamage;
+    int opponentHP = getCurrentOpponentPokemon().getStats().getHP() - playerDamage;
+    
+    // Update Pokémon stats (assuming you have methods for this)
+    getCurrentPlayerPokemon().setHP(playerHP);
+    getCurrentOpponentPokemon().setHP(opponentHP);
 
-    if (opponentChoice == ActionType::SWITCH) {
-        unsigned int opponentIndex;
-        do {
-            getOpponent().listTeam();
-            std::cout << "Which Pokemon did they switch to? "; std::cin >> opponentIndex;
-            getOpponent().setCurrentPokemonIndex(opponentIndex);
-            std::cout << "Is " << getOpponent().getPokemon(opponentIndex).getName() << " correct? " << std::endl;
-        } while (!confirmChoice());
-    }
-
-    if (opponentChoice == ActionType::ATTACK) {
-        unsigned int opponentAttackChoice = 0;
-        do {
-            std::cout << "What move did " << getOpponent().getCurrentPokemon().getName() << " use?" << std::endl;
-            getOpponent().getCurrentPokemon().displayMoves();
-            std::cin >> opponentAttackChoice;
-            std::cout << "Is " << getOpponent().getCurrentPokemon().getMove(opponentAttackChoice).getName() << " correct? " << std::endl;
-        } while (!confirmChoice());
-    }
-
-    if (playerChoice == ActionType::ATTACK) {
-        unsigned int damageDone = 0;
-        do {
-            std::cout << "How much damage did you do?" << std::endl;
-            std::cin >> damageDone;
-            std::cout << "Is this correct? " << damageDone << std::endl;
-        } while (!confirmChoice());
-    }
-
-    if (opponentChoice == ActionType::ATTACK) {
-        unsigned int damageDone = 0;
-        do {
-            std::cout << "How much damage did they do?" << std::endl;
-            std::cin >> damageDone;
-            std::cout << "Is this correct? " << damageDone << std::endl;
-        } while (!confirmChoice());
-    }
-    //return currentTurn;
+    std::cout << "Updated players " << getCurrentPlayerPokemon().getName() << "'s HP: " << getCurrentPlayerPokemon().getStats().getHP() << std::endl;
+    std::cout << "Updated opponent's " << getCurrentOpponentPokemon().getName() << "'s HP: " << getCurrentOpponentPokemon().getStats().getHP() << std::endl;
 }
 
 void Game::playGame() {
-    bool gameOver = false;
     startGame();
-
-    while (!gameOver) {
-        //history.push_back(doTurn());
-        doTurn();
-        if (isGameOver()) gameOver = true;
+    while (!isGameOver()) {
+        std::cout << "\n == Turn " << turnCounter + 1 << " ==" << std::endl;
+        processTurn();
+        updateHealth();
+        incrementTurn();
     }
 }
 

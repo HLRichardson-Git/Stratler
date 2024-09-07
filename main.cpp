@@ -5,8 +5,8 @@
 
 #include <iostream>
 
-const std::string playerTeamPath = "../../data/player_teams/playerTeam.txt";
-const std::string opponentTeamPath = "../../data/player_teams/opponentTeam.txt";
+const std::string playerTeamPath = "../data/player_teams/playerTeam.txt";
+const std::string opponentTeamPath = "../data/player_teams/opponentTeam.txt";
 
 void playTurn(Game& game) {
     int playerIndex, opponentIndex;
