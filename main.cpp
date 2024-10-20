@@ -8,7 +8,7 @@
 const std::string playerTeamPath = "../../data/player_teams/playerTeam.txt";
 const std::string opponentTeamPath = "../../data/player_teams/opponentTeam.txt";
 
-void playTurn(Game& game) {
+/*void playTurn(Game& game) {
     int playerIndex, opponentIndex;
 
     game.getPlayer().listTeam();
@@ -32,7 +32,7 @@ void playTurn(Game& game) {
     std::cout << "Turn " << game.getTurnCounter() << " complete.\n";
 
     game.incrementTurn();
-}
+}*/
 
 int main(){
     Team teamA(playerTeamPath);

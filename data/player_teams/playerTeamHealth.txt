@@ -1,0 +1,7 @@
+# Player Pokémon HP
+IronValiant 100
+Metagross 100
+IronTreads 100
+IronMoth 100
+IronBundle 100
+Dragapult 100

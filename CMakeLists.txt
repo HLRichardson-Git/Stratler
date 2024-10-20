@@ -22,8 +22,13 @@ set(SOURCES
     engine/state/state.cpp
     util/table/table.cpp
 )
+add_executable(${PROJECT_NAME} ${SOURCES})
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/data/player_teams
+)
 
-add_executable(stratler ${SOURCES})
+#add_executable(${PROJECT_NAME} ${SOURCES})
 
 enable_testing()
 
