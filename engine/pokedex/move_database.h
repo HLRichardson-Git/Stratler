@@ -623,4 +623,13 @@ static const MoveDatabase move_database = {
     {"Diamond Storm", {"Diamond Storm", ROCK, PHYSICAL, 100, 95, 5 } },
     {"Hyperspace Hole", {"Hyperspace Hole", PSYCHIC, SPECIAL, 80, -1, 5 } },
     {"Steam Eruption", {"Steam Eruption", WATER, SPECIAL, 110, 95, 5 } },
+    {"Ceaseless Edge", {"Ceaseless Edge", DARK, PHYSICAL, 90, 65, 15 } },
+    {"Triple Axel", {"Triple Axel", ICE, PHYSICAL, 90, 20, 10 } },
+    {"Flower Trick", {"Flower Trick", GRASS, PHYSICAL, 100, 70, 10 } },
+    {"Poltergeist", {"Poltergeist", GHOST, PHYSICAL, 90, 110, 5 } },
+    {"Bitter Blade", {"Bitter Blade", FIRE, PHYSICAL, 100, 90, 10 } },
+    {"Dynamax Cannon", {"Dynamax Cannon", DRAGON, PHYSICAL, 50, 100, 50 } },
+    {"Dragon Darts", {"Dragon Darts", DRAGON, PHYSICAL, 100, 100, 10 } },
+    {"Freeze-Dry", {"Freeze-Dry", ICE, PHYSICAL, 100, 70, 20 } },
+    {"Ice Spinner", {"Ice Spinner", ICE, PHYSICAL, 100, 80, 15 } },
 };

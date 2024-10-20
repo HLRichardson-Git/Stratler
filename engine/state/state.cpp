@@ -10,45 +10,92 @@ bool compareByDamage(const MoveDamage& a, const MoveDamage& b) {
     return a.damage > b.damage;
 }
 
+bool hasGoodEnoughMove(const GameState& stateOfGame) {
+    // Check if any move from the player's current Pokémon can do 80% of the opponent's HP and they are faster
+    for (const auto& moveDamage : stateOfGame.playerMoves) {
+        if (moveDamage.damage >= 0.8 * stateOfGame.opponentHP && stateOfGame.playerSpeed >= stateOfGame.opponentSpeed) {
+            return true;  // Found a move that meets the criteria
+        }
+    }
+    return false;  // No good enough move
+}
+
 MinimaxResult minimax(const GameState& stateOfGame, int depth, bool isMaximizing) {
+    // If player has a move that can do at least 80% damage and is faster, use it
+    if (isMaximizing && hasGoodEnoughMove(stateOfGame)) {
+        for (const auto& moveDamage : stateOfGame.playerMoves) {
+            if (moveDamage.damage >= 0.8 * stateOfGame.opponentHP && stateOfGame.playerSpeed >= stateOfGame.opponentSpeed) {
+                return { std::numeric_limits<int>::max(), moveDamage };  // Favor this move
+            }
+        }
+    }
+    
     if (stateOfGame.playerHP <= 0) {
-        // Player is defeated
-        return { std::numeric_limits<int>::min(), MoveDamage(Move(), 0.0, Pokemon()) };
+        return { std::numeric_limits<int>::min(), MoveDamage(Move(), 0.0, Pokemon()) };  // Player is defeated
     }
     if (stateOfGame.opponentHP <= 0) {
-        // Opponent is defeated
-        return { std::numeric_limits<int>::max(), MoveDamage(Move(), 0.0, Pokemon()) };
+        return { std::numeric_limits<int>::max(), MoveDamage(Move(), 0.0, Pokemon()) };  // Opponent is defeated
     }
     if (depth == 0) {
-        // Depth limit reached, return heuristic value
-        return { stateOfGame.playerHP - stateOfGame.opponentHP, MoveDamage(Move(), 0.0, Pokemon()) };
+        return { stateOfGame.playerHP - stateOfGame.opponentHP, MoveDamage(Move(), 0.0, Pokemon()) };  // Heuristic value
     }
 
     if (isMaximizing) {
         int bestScore = std::numeric_limits<int>::min();
-        MoveDamage bestMoveDamage(Move(), 0.0, Pokemon()); // Initialize with default values
+        MoveDamage bestMoveDamage(Move(), 0.0, Pokemon());  // Initialize with default values
+
         for (const auto& moveDamage : stateOfGame.playerMoves) {
             GameState newState = stateOfGame;
-            newState.opponentHP -= moveDamage.damage; // Apply player's move damage
-            newState.isPlayerTurn = false; // Switch turn
+
+            // If player is slower and opponent moves first, apply opponent's move first
+            if (newState.playerSpeed < newState.opponentSpeed) {
+                newState.playerHP -= newState.opponentMoves[0].damage;  // Assuming opponent's first move
+                if (newState.playerHP <= 0) {
+                    continue;  // Player fainted, skip this move
+                }
+            }
+
+            // Apply player's move damage
+            newState.opponentHP -= moveDamage.damage;
+
+            // Switch turn
+            newState.isPlayerTurn = false;
+
+            // Recursively call minimax for the opponent's move
             MinimaxResult result = minimax(newState, depth - 1, false);
             if (result.score > bestScore) {
                 bestScore = result.score;
-                bestMoveDamage = moveDamage; // Track the best move and Pokémon
+                bestMoveDamage = moveDamage;  // Track the best move and Pokémon
             }
         }
         return { bestScore, bestMoveDamage };
+
     } else {
         int bestScore = std::numeric_limits<int>::max();
-        MoveDamage bestMoveDamage(Move(), 0.0, Pokemon()); // Initialize with default values
+        MoveDamage bestMoveDamage(Move(), 0.0, Pokemon());  // Initialize with default values
+
         for (const auto& moveDamage : stateOfGame.opponentMoves) {
             GameState newState = stateOfGame;
-            newState.playerHP -= moveDamage.damage; // Apply opponent's move damage
-            newState.isPlayerTurn = true; // Switch turn
+
+            // If opponent is slower and player moves first, apply player's move first
+            if (newState.opponentSpeed < newState.playerSpeed) {
+                newState.opponentHP -= newState.playerMoves[0].damage;  // Assuming player's first move
+                if (newState.opponentHP <= 0) {
+                    continue;  // Opponent fainted, skip this move
+                }
+            }
+
+            // Apply opponent's move damage
+            newState.playerHP -= moveDamage.damage;
+
+            // Switch turn
+            newState.isPlayerTurn = true;
+
+            // Recursively call minimax for the player's move
             MinimaxResult result = minimax(newState, depth - 1, true);
             if (result.score < bestScore) {
                 bestScore = result.score;
-                bestMoveDamage = moveDamage; // Track the best move and Pokémon
+                bestMoveDamage = moveDamage;  // Track the best move and Pokémon
             }
         }
         return { bestScore, bestMoveDamage };
@@ -182,9 +229,7 @@ std::vector<MoveDamage> Game::rankMovesByDamage(int opponentPokemonIndex) {
     // Loop through all of the player's Pokémon
     for (int playerPokemonIndex = 0; playerPokemonIndex < TEAM_SIZE; ++playerPokemonIndex) {
         Pokemon& playerPokemon = player.getPokemon(playerPokemonIndex);
-
         std::vector<MoveDamage> moveDamages = calculateMoveDamages(playerPokemon, opponentPokemon);
-
         allMoves.insert(allMoves.end(), moveDamages.begin(), moveDamages.end());
     }
 
@@ -247,7 +292,7 @@ void Game::evaluateMoveViability(int opponentPokemonIndex) {
 void Game::evaluateMatchup(int opponentPokemonIndex) {
     std::vector<MoveDamage> playerMoves = rankMovesByDamage(opponentPokemonIndex);
     Pokemon& opponentPokemon = opponent.getPokemon(opponentPokemonIndex);
-    
+
     // Initialize player Pokemon and their moves
     GameState initialState;
     initialState.playerPokemon = player.getPokemon(0);
@@ -256,10 +301,12 @@ void Game::evaluateMatchup(int opponentPokemonIndex) {
     initialState.opponentMoves = calculateMoveDamages(opponentPokemon, initialState.playerPokemon);
     initialState.playerHP = initialState.playerPokemon.getStats().getHP();
     initialState.opponentHP = initialState.opponentPokemon.getStats().getHP();
-    initialState.isPlayerTurn = true; // Assuming the player starts
+    initialState.playerSpeed = initialState.playerPokemon.getStats().getSpeed();
+    initialState.opponentSpeed = initialState.opponentPokemon.getStats().getSpeed(); 
+    initialState.isPlayerTurn = (initialState.playerSpeed >= initialState.opponentSpeed);
 
     // Run the minimax algorithm
-    MinimaxResult result = minimax(initialState, 3, true); // 3 is the depth, adjust as needed
+    MinimaxResult result = minimax(initialState, 3, initialState.isPlayerTurn); // 3 is the depth, adjust as needed
 
     std::cout << "Minimax result score: " << result.score << std::endl;
     std::cout << "Optimal move: " << result.bestMoveDamage.move.getName() << std::endl;
@@ -331,9 +378,38 @@ void Game::promptForMove(bool isPlayer) {
 
 
 void Game::processTurn() {
-    evaluateMatchup(getOpponent().getCurrentPokemonIndex());
-    promptForMove(true);  // Player's turn
-    promptForMove(false); // Opponent's turn
+    //evaluateMatchup(getOpponent().getCurrentPokemonIndex());
+    //promptForMove(true);  // Player's turn
+    //promptForMove(false); // Opponent's turn
+
+    unsigned int playerIndex, opponentIndex;
+    double playerHPPercent, opponentHPPercent;
+
+    std::cout << "Please input your active Pokemon and their HP percentage:" << std::endl;
+    getPlayer().listTeam();
+    std::cin >> playerIndex;
+    std::cout << "Your active Pokemon's HP percentage (0-100): ";
+    std::cin >> playerHPPercent;
+
+    std::cout << "Please input the opponent's active Pokemon and their HP percentage:" << std::endl;
+    getOpponent().listTeam();
+    std::cin >> opponentIndex;
+    std::cout << "Opponent's active Pokemon's HP percentage (0-100): ";
+    std::cin >> opponentHPPercent;
+
+    // Set current Pokémon for both player and opponent
+    getPlayer().setCurrentPokemonIndex(playerIndex);
+    getOpponent().setCurrentPokemonIndex(opponentIndex);
+
+    // Convert percentages to actual HP
+    Pokemon& playerPokemon = getPlayer().getCurrentPokemon();
+    Pokemon& opponentPokemon = getOpponent().getCurrentPokemon();
+
+    playerPokemon.setHP(playerPokemon.getStats().getHP() * (playerHPPercent / 100));
+    opponentPokemon.setHP(opponentPokemon.getStats().getHP() * (opponentHPPercent / 100));
+
+    // Now that you have the updated state, evaluate the best move
+    evaluateMatchup(opponentIndex);
 }
 
 void Game::updateHealth() {
@@ -354,20 +430,25 @@ void Game::updateHealth() {
     int opponentHP = getCurrentOpponentPokemon().getStats().getHP() - playerDamage;
     
     // Update Pokémon stats (assuming you have methods for this)
-    getCurrentPlayerPokemon().setHP(playerHP);
-    getCurrentOpponentPokemon().setHP(opponentHP);
+    getCurrentPlayerPokemon().setPercentageHP(playerHP);
+    getCurrentOpponentPokemon().setPercentageHP(opponentHP);
 
     std::cout << "Updated players " << getCurrentPlayerPokemon().getName() << "'s HP: " << getCurrentPlayerPokemon().getStats().getHP() << std::endl;
     std::cout << "Updated opponent's " << getCurrentOpponentPokemon().getName() << "'s HP: " << getCurrentOpponentPokemon().getStats().getHP() << std::endl;
 }
 
 void Game::playGame() {
-    startGame();
-    while (!isGameOver()) {
+    //startGame();
+    //while (!isGameOver()) {
+    while (true) {
         std::cout << "\n == Turn " << turnCounter + 1 << " ==" << std::endl;
         processTurn();
-        updateHealth();
+
+        //updateHealth();
         incrementTurn();
+        std::cout << "Press Enter to continue to the next turn...";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear any previous input
+        std::cin.get();
     }
 }
 

@@ -956,7 +956,7 @@ static const PokemonDatabase pokedex = {
     {"Dragapult", PokemonData(DRAGON, GHOST, {0, 0, 0, 0, 0, 0})},
     {"Zacian", PokemonData(FAIRY, NONE, {0, 0, 0, 0, 0, 0})},
     {"Zamazenta", PokemonData(FIGHTING, NONE, {0, 0, 0, 0, 0, 0})},
-    {"Eternatus", PokemonData(POISON, DRAGON, {0, 0, 0, 0, 0, 0})},
+    {"Eternatus", PokemonData(POISON, DRAGON, {140, 85, 95, 145, 95, 130})},
     {"Kubfu", PokemonData(FIGHTING, NONE, {0, 0, 0, 0, 0, 0})},
     {"Urshifu", PokemonData(FIGHTING, DARK, {0, 0, 0, 0, 0, 0})},
     {"Zarude", PokemonData(DARK, GRASS, {0, 0, 0, 0, 0, 0})},
@@ -965,5 +965,12 @@ static const PokemonDatabase pokedex = {
     {"Glastrier", PokemonData(ICE, NONE, {0, 0, 0, 0, 0, 0})},
     {"Spectrier", PokemonData(GHOST, NONE, {0, 0, 0, 0, 0, 0})},
     {"Calyrex", PokemonData(PSYCHIC, GRASS, {0, 0, 0, 0, 0, 0})},
+    {"IronValiant", PokemonData(FAIRY, FIGHTING, {74, 130, 90, 120, 60, 116})},
+    {"Ceruledge", PokemonData(FIRE, GHOST, {75, 125, 80, 60, 100, 85})},
+    {"Meowscarada", PokemonData(GRASS, DARK, {76, 110, 70, 81, 70, 123})},
+    {"Samurott-Hisui", PokemonData(WATER, DARK, {90, 108, 80, 100, 65, 85})},
+    {"IronMoth", PokemonData(FIRE, POISON, {80, 70, 60, 140, 110, 110})},
+    {"IronTreads", PokemonData(GROUND, STEEL, {90, 112, 120, 72, 70, 106})},
+    {"IronBundle", PokemonData(ICE, WATER, {56, 80, 114, 124, 60, 136})},
 };
 

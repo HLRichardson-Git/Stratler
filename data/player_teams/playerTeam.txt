@@ -1,53 +1,53 @@
-Sceptile @ Sceptilite
-Ability: Overgrow
-EVs: 4 Def / 252 SpA / 252 Spe
+IronValiant @ Booster Energy
+Ability: Quark Drive
+EVs: 4 HP / 252 SpA / 252 Spe
+Timid Nature
+- Moonblast
+- Shadow Ball
+- Psyshock
+- Drain Punch
+
+Dragapult @ Heavy-Duty Boots
+Ability: Infiltrator
+EVs: 60 HP / 196 SpA / 252 Spe
 Naive Nature
-- Leaf Storm
-- Dragon Pulse
-- Earthquake
-- Hidden Power Fire
-
-Kyurem-Black @ Life Orb
-Ability: Teravolt
-EVs: 4 Atk / 252 SpA / 252 Spe
-Mild Nature
-- Ice Beam
-- Earth Power
-- Fusion Bolt
-- Roost
-
-Talonflame @ Leftovers
-Ability: Gale Wings
-EVs: 248 HP / 252 Atk / 8 Def
-Adamant Nature
+- Dragon Darts
+- Hex
 - Acrobatics
-- Swords Dance
-- Roost
-- Will-O-Wisp
+- Flamethrower
 
-Slowbro @ Leftovers
-Ability: Regenerator
-EVs: 252 HP / 176 Def / 80 SpD
-Bold Nature
-- Scald
-- Slack Off
-- Thunder Wave
-- Ice Beam
+IronMoth @ Booster Energy
+Ability: Quark Drive
+EVs: 124 Def / 132 SpA / 252 Spe
+Timid Nature
+- Fiery Dance
+- Sludge Wave
+- Dazzling Gleam
+- Energy Ball
 
-Tyranitar @ Choice Scarf
-Ability: Sand Stream
-EVs: 252 Atk / 4 Def / 252 Spe
-Jolly Nature
-- Stone Edge
-- Pursuit
-- Superpower
-- Crunch
-
-Excadrill @ Leftovers
-Ability: Sand Rush
-EVs: 252 Atk / 4 Def / 252 Spe
-Jolly Nature
+Metagross @ Metagrossite
+Ability: Clear Body
+EVs: 252 HP / 160 Atk / 96 Spe
+Adamant Nature
+- Heavy Slam
+- Zen Headbutt
 - Earthquake
-- Iron Head
+- Knock Off
+
+IronTreads @ Booster Energy
+Ability: Quark Drive
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
 - Rapid Spin
-- Swords Dance
+- Earthquake
+- Ice Spinner
+- Volt Switch
+
+IronBundle @ Heavy-Duty Boots
+Ability: Quark Drive
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Freeze-Dry
+- Hydro Pump
+- Ice Beam
+- U-turn

@@ -55,6 +55,8 @@ const std::string typeNames[TYPE_AMOUNT] = {
     "Steel", "Fairy"
 };
 
+inline std::string typeToString(PokemonType type) { return typeNames[static_cast<int>(type)]; }
+
 class Type {
 private:
     PokemonType primaryType;

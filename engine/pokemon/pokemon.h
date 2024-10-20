@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>
 
 #include "move/move.h"
 #include "type/type.h"
@@ -20,7 +21,8 @@ private:
     PokemonStats stats;
     Nature nature;
     std::array<Move, 4> moves;
-    std::vector<float> combinedWeakness; 
+    std::vector<float> combinedWeakness;
+    int maxHP;
 
     void findPokemonData(const std::string& name);
     int calculateHP(int hp, int iv, int ev);
@@ -32,11 +34,12 @@ private:
     friend class Team;
 public:
 
-    Pokemon() : name("Unknown"), nature(Nature::Bashful), types(), baseStats(), evs(), stats(), moves() {}
+    Pokemon() : name("Unknown"), nature(Nature::Bashful), types(), baseStats(), evs(), stats(), moves(), maxHP() {}
 
     Pokemon(const std::string& name) : name(name), nature(Nature::Bashful), types(), baseStats(), evs(), stats(), moves() {
         findPokemonData(name);
         calculateStats();
+        maxHP = stats.getHP();
         combinedWeakness = types.getCombinedWeakness();
     }
 
@@ -51,6 +54,7 @@ public:
         }
 
         calculateStats();
+        maxHP = stats.getHP();
         combinedWeakness = types.getCombinedWeakness();
     }
 
@@ -58,7 +62,7 @@ public:
     Pokemon(const Pokemon& other) 
         : name(other.name), types(other.types), level(other.level), baseStats(other.baseStats), evs(other.evs),
           ivs(other.ivs), stats(other.stats), nature(other.nature), moves(other.moves),
-          combinedWeakness(other.combinedWeakness) {}
+          combinedWeakness(other.combinedWeakness), maxHP(other.maxHP) {}
 
     Pokemon& operator=(const Pokemon& other) {
         if (this != &other) {
@@ -72,6 +76,7 @@ public:
             stats = other.stats;
             nature = other.nature;
             moves = other.moves;
+            maxHP = other.maxHP;
             combinedWeakness = other.combinedWeakness;
         }
         return *this;
@@ -92,6 +97,12 @@ public:
     inline void setStats(std::array<int, 6> givenStats) { baseStats.setStats(givenStats); }
     void setMove(const std::string& moveName, size_t index);
     void setHP(int health) { stats.setHP(health); }
+    void setPercentageHP(int percentage) { 
+        percentage = std::max(0, std::min(100, percentage));
+        int health = (maxHP * percentage) / 100;
+        stats.setHP(health);
+    }
+    void reduceHP(int damage) { stats.setHP(stats.getHP() - damage); }
 
     void parseInfo(const std::string& input);
     double useMove(size_t moveIndex, Pokemon opponentPokemon);

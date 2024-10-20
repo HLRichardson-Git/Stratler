@@ -27,6 +27,8 @@ struct GameState {
     std::vector<MoveDamage> opponentMoves;
     int playerHP;
     int opponentHP;
+    int playerSpeed;
+    int opponentSpeed;
     bool isPlayerTurn;
 };
 
@@ -35,6 +37,7 @@ struct MinimaxResult {
     MoveDamage bestMoveDamage;
 };
 
+bool hasGoodEnoughMove(const GameState& stateOfGame);
 MinimaxResult minimax(const GameState& stateOfGame, int depth, bool isMaximizing);
 
 enum Side {

@@ -1,53 +1,53 @@
-Mawile @ Mawilite
-Ability: Intimidate
-EVs: 248 HP / 16 Atk / 244 SpD
+Arceus @ Leftovers
+Ability: Multitype
+EVs: 240 HP / 252 Atk / 16 Spe
 Adamant Nature
-- Iron Head
-- Play Rough
-- Sucker Punch
-- Baton Pass
-
-Zapdos @ Leftovers
-Ability: Pressure
-EVs: 252 HP / 172 Def / 68 SpA / 16 Spe
-Bold Nature
-- Thunderbolt
-- Roost
-- Defog
-- Heat Wave
-
-Ferrothorn @ Leftovers
-Ability: Iron Barbs
-EVs: 252 HP / 88 Def / 168 SpD
-Relaxed Nature
-- Spikes
-- Leech Seed
-- Gyro Ball
-- Power Whip
-
-Garchomp @ Life Orb
-Ability: Rough Skin
-EVs: 252 Atk / 4 Def / 252 Spe
-Jolly Nature
 - Swords Dance
-- Dragon Claw
+- Extreme Speed
+- Shadow Claw
 - Earthquake
-- Fire Fang
 
-Crawdaunt @ Life Orb
-Ability: Adaptability
-EVs: 4 HP / 252 Atk / 252 Spe
-Jolly Nature
-- Swords Dance
-- Crabhammer
-- Knock Off
-- Aqua Jet
-
-Toxicroak @ Life Orb
-Ability: Dry Skin
+Samurott-Hisui @ Focus Sash
+Ability: Sharpness
 EVs: 252 Atk / 4 SpD / 252 Spe
 Jolly Nature
-- Swords Dance
-- Gunk Shot
-- Drain Punch
-- Sucker Punch
+- Ceaseless Edge
+- Razor Shell
+- Aqua Jet
+- Knock Off
+
+IronValiant @ Choice Specs
+Ability: Quark Drive
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+- Moonblast
+- Focus Blast
+- Thunderbolt
+- Shadow Ball
+
+Lucario @ Choice Band
+Ability: Justified
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Extreme Speed
+- Close Combat
+- Meteor Mash
+- Crunch
+
+Aegislash @ Leftovers
+Ability: Stance Change
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+- Substitute
+- Toxic
+- King's Shield
+- Shadow Ball
+
+Meowscarada @ Protective Pads
+Ability: Protean
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Flower Trick
+- Knock Off
+- U-turn
+- Triple Axel
