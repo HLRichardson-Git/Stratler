@@ -284,7 +284,7 @@ std::vector<PokemonMoveRanking> Game::evaluateBestMoves(bool isPlayerTurnStart) 
         };
 
         // Get the best move for this Pokémon against the opponent
-        MinimaxResult result = minimax(newState, /* depth */ 2, true);
+        MinimaxResult result = minimax(newState, /* depth */ 4, true);
 
         // Penalize the score for switching in
         if (willSwitchIn && (result.score > std::numeric_limits<int>::min() + 10)) {
@@ -320,7 +320,7 @@ void Game::processTurn() {
     getPlayer().setCurrentPokemonIndex(playerIndex);
     getOpponent().setCurrentPokemonIndex(opponentIndex);
 
-    updatePokemonHealthFromFile("../../data/player_teams/playerTeamHealth.txt");
+    //updatePokemonHealthFromFile("../../data/player_teams/playerTeamHealth.txt");
 
     // Now that you have the updated state, evaluate the best move
     std::vector<PokemonMoveRanking> rankings = evaluateBestMoves(true);

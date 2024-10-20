@@ -13,6 +13,12 @@ FetchContent_Declare(
     URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
 
+include_directories(
+    include
+    include/imgui
+    include/imgui/backends
+)
+
 set(SOURCES
     main.cpp
     engine/pokemon/type/type.cpp
@@ -22,12 +28,18 @@ set(SOURCES
     engine/state/state.cpp
     util/table/table.cpp
 )
-add_executable(${PROJECT_NAME} ${SOURCES})
+
+file(GLOB IMGUI_SOURCES
+    "include/imgui/*.cpp"
+    "include/imgui/backends/*.cpp"
+)
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES}) 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${PROJECT_SOURCE_DIR}/data/player_teams
 )
-
+target_link_libraries(${PROJECT_NAME} PRIVATE d3d11 d3dcompiler dxguid dwmapi)
 #add_executable(${PROJECT_NAME} ${SOURCES})
 
 enable_testing()

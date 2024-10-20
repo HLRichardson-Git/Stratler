@@ -93,7 +93,7 @@ public:
     Nature getNature() const { return nature; }
     Type getType() const { return types; }
     Move getMove(size_t position) const { return moves[position]; }
-    
+    int getMaxHP() const { return maxHP; }
 
     inline void setStats(std::array<int, 6> givenStats) { baseStats.setStats(givenStats); }
     void setMove(const std::string& moveName, size_t index);

@@ -953,7 +953,7 @@ static const PokemonDatabase pokedex = {
     {"Duraludon", PokemonData(STEEL, DRAGON, {0, 0, 0, 0, 0, 0})},
     {"Dreepy", PokemonData(DRAGON, GHOST, {0, 0, 0, 0, 0, 0})},
     {"Drakloak", PokemonData(DRAGON, GHOST, {0, 0, 0, 0, 0, 0})},
-    {"Dragapult", PokemonData(DRAGON, GHOST, {0, 0, 0, 0, 0, 0})},
+    {"Dragapult", PokemonData(DRAGON, GHOST, {88, 120, 75, 100, 75, 142})},
     {"Zacian", PokemonData(FAIRY, NONE, {0, 0, 0, 0, 0, 0})},
     {"Zamazenta", PokemonData(FIGHTING, NONE, {0, 0, 0, 0, 0, 0})},
     {"Eternatus", PokemonData(POISON, DRAGON, {140, 85, 95, 145, 95, 130})},
