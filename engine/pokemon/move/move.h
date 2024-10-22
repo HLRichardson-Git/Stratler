@@ -22,23 +22,25 @@ struct Move {
     std::string name;
     PokemonType type;
     Category category;
+    int priority;
     int power, accuracy, pp;
 
-    Move() : name(""), type(PokemonType::NONE), category(Category::NO_CATEGORY), power(0), accuracy(0), pp(0) {}
+    Move() : name(""), type(PokemonType::NONE), category(Category::NO_CATEGORY), priority(0), power(0), accuracy(0), pp(0) {}
     Move(const std::string& moveName) 
-        : name(moveName), type(PokemonType::NONE), category(Category::NO_CATEGORY), power(0), accuracy(0), pp(0) {}
-    Move(const std::string& moveName, PokemonType type, Category category, int power, int accuracy, int pp) 
-        : name(moveName), type(type), category(category), power(power), accuracy(accuracy), pp(pp) {}
+        : name(moveName), type(PokemonType::NONE), category(Category::NO_CATEGORY), priority(0),power(0), accuracy(0), pp(0) {}
+    Move(const std::string& moveName, PokemonType type, Category category, int priority, int power, int accuracy, int pp) 
+        : name(moveName), type(type), category(category), priority(priority), power(power), accuracy(accuracy), pp(pp) {}
 
     // Copy constructor
     Move(const Move& other) 
-        : name(other.name), type(other.type), category(other.category), power(other.power), accuracy(other.accuracy), pp(other.pp) {}
+        : name(other.name), type(other.type), category(other.category), priority(other.priority), power(other.power), accuracy(other.accuracy), pp(other.pp) {}
 
     Move& operator=(const Move& other) {
         if (this != &other) { // Prevent self-assignment
             name = other.name;
             type = other.type;
             category = other.category;
+            priority = other.priority;
             power = other.power;
             accuracy = other.accuracy;
             pp = other.pp;
