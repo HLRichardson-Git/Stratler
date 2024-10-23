@@ -1,29 +1,20 @@
-IronValiant @ Booster Energy
-Ability: Quark Drive
-EVs: 4 HP / 252 SpA / 252 Spe
-Timid Nature
-- Moonblast
-- Shadow Ball
-- Psyshock
-- Drain Punch
-
-Dragapult @ Heavy-Duty Boots
-Ability: Infiltrator
-EVs: 60 HP / 196 SpA / 252 Spe
-Naive Nature
-- Dragon Darts
-- Hex
-- Acrobatics
-- Flamethrower
-
 IronMoth @ Booster Energy
 Ability: Quark Drive
 EVs: 124 Def / 132 SpA / 252 Spe
 Timid Nature
 - Fiery Dance
-- Sludge Wave
 - Dazzling Gleam
 - Energy Ball
+- U-turn
+
+IronJugulis @ Booster Energy
+Ability: Quark Drive
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Dark Pulse
+- Hurricane
+- Flamethrower
+- U-turn
 
 Metagross @ Metagrossite
 Ability: Clear Body
@@ -32,22 +23,31 @@ Adamant Nature
 - Heavy Slam
 - Zen Headbutt
 - Earthquake
-- Knock Off
+- Brick Break
 
 IronTreads @ Booster Energy
 Ability: Quark Drive
-EVs: 252 Atk / 4 SpD / 252 Spe
+EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature
-- Rapid Spin
 - Earthquake
+- Iron Head
 - Ice Spinner
 - Volt Switch
 
-IronBundle @ Heavy-Duty Boots
+IronHands @ Leftovers
 Ability: Quark Drive
+EVs: 252 Atk / 172 SpD / 84 Spe
+Adamant Nature
+- Drain Punch
+- Thunder Punch
+- Ice Punch
+- Fire Punch
+
+Dragapult @ Heavy-Duty Boots
+Ability: Infiltrator
 EVs: 252 SpA / 4 SpD / 252 Spe
 Timid Nature
-- Freeze-Dry
-- Hydro Pump
-- Ice Beam
+- Dragon Darts
+- Hex
+- Flamethrower
 - U-turn

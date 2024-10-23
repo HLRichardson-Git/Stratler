@@ -75,7 +75,9 @@ int main(int, char**)
     const std::string playerTeamPath = "../../data/player_teams/playerTeam.txt";
     const std::string opponentTeamPath = "../../data/player_teams/opponentTeam.txt";
     Team player(playerTeamPath);
+    player.displayTeamInfo();
     Team opponent(opponentTeamPath);
+    //opponent.displayTeamInfo();
     Game game(player, opponent);
     int selectedPlayerPokemonIndex = -1;
     int selectedOpponentPokemonIndex = -1;
@@ -135,27 +137,27 @@ int main(int, char**)
             
             // First column: Text and Input
             for (int i = 0; i < TEAM_SIZE; i++) {
-                std::string pokemonName = player.getPokemon(i).getName();
+                std::string pokemonName = game.getPlayer().getPokemon(i).getName();
                 ImGui::RadioButton(pokemonName.c_str(), &selectedPlayerPokemonIndex, i); // Set the radio button value based on index
                 ImGui::SameLine();
 
-                ImGui::Text("Health: %d", player.getPokemon(i).getStats().getHP());
+                ImGui::Text("Health: %d", game.getPlayer().getPokemon(i).getStats().getHP());
                 // Input box for integers (ImGui::InputInt expects integers)
                 ImGui::SetNextItemWidth(columnWidthFourth - 15.0f);
                 ImGui::InputInt(("##input1_" + std::to_string(i)).c_str(), &inputValues1[i]);
                 if (inputValues1[i] < 0) inputValues1[i] = 0;
                 else if (inputValues1[i] > 100) inputValues1[i] = 100;
 
-                player.getPokemon(i).setPercentageHP(inputValues1[i]);
+                game.getPlayer().getPokemon(i).setPercentageHP(inputValues1[i]);
             }
             ImGui::NextColumn(); // Move to the second column
 
             // Second column: Text and Input
             for (int i = 0; i < TEAM_SIZE; i++) {
-                std::string pokemonName = opponent.getPokemon(i).getName();
+                std::string pokemonName = game.getOpponent().getPokemon(i).getName();
                 ImGui::RadioButton(("Opponent " + pokemonName).c_str(), &selectedOpponentPokemonIndex, i); // Set the radio button value based on index
                 ImGui::SameLine();  // Puts input box on the same line as the text
-                ImGui::Text("Health: %d", opponent.getPokemon(i).getStats().getHP());
+                ImGui::Text("Health: %d", game.getOpponent().getPokemon(i).getStats().getHP());
                 // Input box for integers (ImGui::InputInt expects integers)
                 ImGui::SetNextItemWidth(columnWidthFourth - 15.0f);
                 ImGui::InputInt(("##input2_" + std::to_string(i)).c_str(), &inputValues2[i]);
@@ -163,7 +165,8 @@ int main(int, char**)
                 else if (inputValues2[i] > 100) inputValues2[i] = 100;
 
                 //updatedValues2[i] = (inputValues2[i] * opponent.getPokemon(i).getMaxHP()) / 100;
-                opponent.getPokemon(i).setPercentageHP(inputValues2[i]);
+                //opponent.getPokemon(i).setPercentageHP(inputValues2[i]);
+                game.getOpponent().getPokemon(i).setPercentageHP(inputValues2[i]);
             }
 
             // End the columns

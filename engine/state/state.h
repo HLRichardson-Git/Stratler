@@ -15,7 +15,7 @@ struct MoveDamage {
     Pokemon activePokemon;
     bool isViable = false;
 
-    MoveDamage(const Move& m, double d, const Pokemon& pokemon) : move(m), damage(d), activePokemon(pokemon) {}
+    MoveDamage(const Move& m, double d, const Pokemon pokemon) : move(m), damage(d), activePokemon(pokemon) {}
 };
 
 bool compareByDamage(const MoveDamage& a, const MoveDamage& b);
@@ -26,8 +26,8 @@ struct PokemonMoveRanking {
     int score;            // The evaluation score of this move
 };
 struct GameState {
-    Pokemon playerPokemon;
-    Pokemon opponentPokemon;
+    Pokemon& playerPokemon;
+    Pokemon& opponentPokemon;
     std::vector<MoveDamage> playerMoves;
     std::vector<MoveDamage> opponentMoves;
     int playerHP;
@@ -41,7 +41,7 @@ struct MinimaxResult {
 };
 
 //bool hasGoodEnoughMove(const GameState& stateOfGame);
-MinimaxResult minimax(const GameState& stateOfGame, int depth, bool isMaximizing);
+MinimaxResult minimax(GameState& stateOfGame, int depth, bool isMaximizing);
 
 enum Side {
     UNKNOWN,
@@ -111,7 +111,7 @@ private:
     int turnCounter;
 
 public:
-    Game(const Team& player, const Team& opponent) 
+    Game(Team& player, Team& opponent) 
         : turnCounter(0), player(player), opponent(opponent) {}
 
     void Game::updatePokemonHealthFromFile(const std::string& filePath);

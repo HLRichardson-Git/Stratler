@@ -8,7 +8,6 @@
 
 using MoveDatabase = std::map<std::string, Move>;
 
-// TODO: Add hidden power for all types
 static const MoveDatabase move_database = {
     {"10,000,000 Volt Thunderbolt", {"10,000,000 Volt Thunderbolt", ELECTRIC, SPECIAL, 0, 195, 100, 1}},
     {"Absorb", {"Absorb", GRASS, SPECIAL, 0, 20, 100, 25}},

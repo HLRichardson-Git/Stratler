@@ -11,7 +11,7 @@ bool compareByDamage(const MoveDamage& a, const MoveDamage& b) {
     return a.damage > b.damage;
 }
 
-MinimaxResult minimax(const GameState& stateOfGame, int depth, bool isMaximizing) {
+MinimaxResult minimax(GameState& stateOfGame, int depth, bool isMaximizing) {
     // Base conditions: Check if a Pokémon fainted or depth limit reached
     if (stateOfGame.playerHP <= 0) {
         return { std::numeric_limits<int>::min(), MoveDamage(Move(), 0.0, stateOfGame.playerPokemon) };  // Player is defeated
@@ -266,7 +266,8 @@ std::vector<PokemonMoveRanking> Game::evaluateBestMoves(bool isPlayerTurnStart) 
 
     //for (const Pokemon& pokemon : player.getPokemon()) {
     for (int i = 0; i < TEAM_SIZE; i++) {
-        Pokemon playerPokemon = player.getPokemon(i);
+        Pokemon& playerPokemon = player.getPokemon(i);
+
         // Skip fainted Pokémon
         if (playerPokemon.getStats().getHP() <= 0) continue;
 
