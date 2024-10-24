@@ -1,53 +1,53 @@
-Arceus @ Leftovers
-Ability: Multitype
-EVs: 240 HP / 252 Atk / 16 Spe
-Adamant Nature
-- Swords Dance
-- Extreme Speed
-- Shadow Claw
-- Earthquake
+Shroomish @ Eviolite
+Ability: Effect Spore
+EVs: 36 HP / 36 Atk / 196 Def / 116 SpD / 76 Spe
+Impish Nature
+- Spore
+- Bullet Seed
+- Drain Punch
+- Synthesis
 
-Samurott-Hisui @ Focus Sash
-Ability: Sharpness
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Ceaseless Edge
-- Razor Shell
-- Aqua Jet
-- Knock Off
+Weezing-Galar @ Heavy-Duty Boots
+Ability: Neutralizing Gas
+EVs: 252 HP / 240 Def / 16 SpA
+Bold Nature
+- Strange Steam
+- Defog
+- Pain Split
+- Will-O-Wisp
 
-IronValiant @ Choice Specs
-Ability: Quark Drive
-EVs: 4 Def / 252 SpA / 252 Spe
-Timid Nature
-- Moonblast
-- Focus Blast
+Regice @ Leftovers
+Ability: Clear Body
+EVs: 248 HP / 252 SpA / 8 Spe
+Calm Nature
+- Rest
+- Sleep Talk
+- Ice Beam
 - Thunderbolt
-- Shadow Ball
 
-Lucario @ Choice Band
-Ability: Justified
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Extreme Speed
-- Close Combat
-- Meteor Mash
-- Crunch
+Spinda @ Life Orb
+Ability: Contrary
+EVs: 252 HP / 252 Atk / 4 Def
+Brave Nature
+- Trick Room
+- Superpower
+- Return
+- Sucker Punch
 
-Aegislash @ Leftovers
-Ability: Stance Change
-EVs: 252 HP / 252 SpA / 4 SpD
-Modest Nature
-- Substitute
+Eternatus @ Heavy-Duty Boots
+Ability: Pressure
+EVs: 200 HP / 252 SpD / 56 Spe
+Timid Nature
+- Dynamax Cannon
 - Toxic
-- King's Shield
-- Shadow Ball
+- Toxic Spikes
+- Recover
 
-Meowscarada @ Protective Pads
-Ability: Protean
-EVs: 252 Atk / 4 SpD / 252 Spe
-Jolly Nature
-- Flower Trick
-- Knock Off
-- U-turn
-- Triple Axel
+Klefki @ Leftovers
+Ability: Prankster
+EVs: 252 HP / 4 Def / 252 SpD
+Calm Nature
+- Spikes
+- Thunder Wave
+- Foul Play
+- Dazzling Gleam

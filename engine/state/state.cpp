@@ -268,9 +268,6 @@ std::vector<PokemonMoveRanking> Game::evaluateBestMoves(bool isPlayerTurnStart) 
     for (int i = 0; i < TEAM_SIZE; i++) {
         Pokemon& playerPokemon = player.getPokemon(i);
 
-        // Skip fainted Pokémon
-        if (playerPokemon.getStats().getHP() <= 0) continue;
-
         bool willSwitchIn = (i != player.getCurrentPokemonIndex());
 
         // Set up the initial game state

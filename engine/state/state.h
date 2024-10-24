@@ -105,8 +105,8 @@ enum ActionType {
 
 class Game {
 private:
-    Team player;
-    Team opponent;
+    Team& player;
+    Team& opponent;
 
     int turnCounter;
 

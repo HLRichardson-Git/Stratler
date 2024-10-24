@@ -75,7 +75,7 @@ int main(int, char**)
     const std::string playerTeamPath = "../../data/player_teams/playerTeam.txt";
     const std::string opponentTeamPath = "../../data/player_teams/opponentTeam.txt";
     Team player(playerTeamPath);
-    player.displayTeamInfo();
+    //player.displayTeamInfo();
     Team opponent(opponentTeamPath);
     //opponent.displayTeamInfo();
     Game game(player, opponent);
